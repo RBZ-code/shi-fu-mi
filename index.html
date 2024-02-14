@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>generateur hexa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="divColor">
+            <input type="color" id="firstColor" value="#e66465" placeholder="#e66465"/>
+            <span id="firstColorValue" class="spanColor">#E66465</span>
+        </div>
+        <div class="divColor">
+            <input type="color" id="secondColor" value="#1252BA" />
+            <span id="secondColorValue" class="spanColor">#1252BA</span>
+        </div>
+        <p class="deg">Orientation : <span class="numDeg">0</span>° </p>
+        <input type="range" id="control" min="0" max="360" value="0">
+        <div class="groupeBtn">
+            <button id="copie" class="btn">Copier</button>
+            <button id="alea" class="btn">Random</button>
+        </div>  
+        <p class="popUp">Copié !</p>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
