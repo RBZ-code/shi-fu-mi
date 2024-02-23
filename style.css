@@ -6,81 +6,78 @@
 }
 
 body{
-    padding-top: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
     height: 100vh;
-    font-size: 20px;
+    background: linear-gradient(63deg, rgb(0, 0, 0), rgb(101, 70, 185));
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 70%;
+    background-color: rgb(203, 186, 196);
+    border-radius: 10px;
 }
 
 .container{
     display: flex;
-    flex-direction: column;
-    max-width: 500px;
-    margin: auto;
-    padding: 10px;
-    position: relative;
+    gap: 5px;
 }
-input[type="color"]{
+
+.box{
+    max-width: 150px;
+}
+
+img{
     width: 100%;
-    height: 60px;
-    position: relative;
-    border: none;
-    outline: none;
-    border-radius: 15px;
+    cursor: pointer;
 }
 
-input[type="color"]::-webkit-color-swatch-wrapper {
-	padding: 0;
+h2{
+    font-size:56px;
+    margin: 20px;
 }
 
-input[type="color"]::-webkit-color-swatch {
-	border: solid 1px white; /*change color of the swatch border here*/
-	border-radius: 15px;
+.arbitre{
+    max-width: 300px;
+    text-align: center;
+    display: none;
 }
 
-.deg{
-    margin: 10px 0;
-    padding: 10px;
-    background: #F1F1F1;
-    border-radius: 5px;
-    width: fit-content;
-}
-.numDeg{
-    padding-left: 10px;
+
+.desactive{
+    opacity: .5;
 }
 
-.divColor{
-    position: relative;
-    margin-bottom: 5px;
+.active{
+    border: 5px solid gold;
 }
 
-.spanColor{
-    position: absolute;
-    top: 20px;
-    left: 25px;
-    color: white;
-}
-.groupeBtn{
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 30px;
-}
-.btn{
-    padding: 10px 40px;
-    border-radius: 5px;
-    font-size: 20px;
-    outline: color(srgb-linear red green blue)
+span{
+    font-weight: bold;
 }
 
-.popUp{
-    padding: 10px;
-    background: #F1F1F1;
-    width: fit-content;
-    border-radius: 5px;
-    position: absolute;
-    bottom: -40px;
-    left: 20%;
-    transition: 1s ease-in-out;
-    opacity: 0;
-    z-index: 10;
+.score{
+    display: none;
+    margin: 15px;
 }
 
+.choix{
+    margin: 15px;
+}
+
+.resultManche{
+    margin: 20px;
+    font-size: 34px;
+}
+.result{
+    margin: 15px;
+}
+.score span{
+    font-weight: normal;
+}

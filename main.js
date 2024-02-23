@@ -1,101 +1,184 @@
 // Sélection des éléments du DOM
-const color1 = document.getElementById('firstColor');
-const color2 = document.getElementById('secondColor');
-const dataColor1 = document.getElementById('firstColorValue');
-const dataColor2 = document.getElementById('secondColorValue');
-const control = document.getElementById('control');
-const dataControl = document.querySelector('.numDeg');
-const backgroundBody = document.body;
-const btnAlea = document.getElementById('alea');
-const btnCopie = document.getElementById('copie');
-const popUp = document.querySelector('.popUp');
+const pierre = document.getElementById("pierre");
+const ciseaux = document.getElementById("ciseaux");
+const feuille = document.getElementById("feuille");
+const box = document.querySelectorAll(".item");
+const resultManche = document.querySelector(".resultManche");
+const resultChoix = document.querySelector(".choix");
+const score = document.querySelector(".score");
+const scoreJoueur = document.getElementById("scoreJoueur");
+const scoreYasuo = document.getElementById("scoreYasuo");
+const arbitre = document.querySelector(".arbitre");
+const fin = document.querySelector(".result");
+const rejouer = document.getElementById("arbitre");
 
-// Fonction pour mettre à jour le dégradé
-const upDatelinear = () => {
-    const color1Value = color1.value;
-    const color2Value = color2.value;
-    const controlValue = control.value + 'deg';
-    
-    const linear = `linear-gradient(${controlValue},${color1Value},${color2Value})`;
+// Fonction exécutée lors du choix d'une manche
+const jouerManche = (e) => {
+  let choix = e.target;
 
-    backgroundBody.style.background = linear;
+  // Désactivation des images après le choix
+  box.forEach((img) => {
+    img.classList.add("desactive");
+    img.removeEventListener("click", jouerManche);
+  });
+
+  // Activation de l'image choisie
+  choix.classList.remove("desactive");
+  choix.classList.add("active");
+
+  // Récupération du choix du joueur
+  let choixJoueur = choix.id;
+
+  // Choix aléatoire du robot
+  let choixYasuo = faireChoixYasuo();
+
+  // Détermination du gagnant
+  quiGagne(choixJoueur, choixYasuo);
+
+  // Affichage du score
+  score.style.display = "block";
+
+  setTimeout(() => {
+    resetChoix();
+
+    // Vérification de la fin de partie
+    const Joueur = parseInt(document.getElementById("scoreJoueur").textContent);
+    const Yasuo = parseInt(document.getElementById("scoreYasuo").textContent);
+
+    if (Joueur === 5 || Yasuo === 5) {
+      box.forEach((img) => {
+        img.removeEventListener("click", jouerManche);
+        choix.classList.add("active");
+      });
+
+      arbitre.style.display = "block";
+
+      if (Joueur === 5) {
+        fin.textContent = "Vous avez gagné !!";
+        fin.style.color = "green";
+      } else {
+        fin.textContent = "Vous avez Perdu !!";
+        fin.style.color = "red";
+      }
+    }
+  }, 500);
 };
 
-// Initialisation du dégradé au chargement de la page
-upDatelinear();
-
-// Écouteurs d'événements pour les changements de couleurs et d'orientation
-color1.addEventListener('input', upDatelinear);
-color2.addEventListener('input', upDatelinear);
-control.addEventListener('input', upDatelinear);
-
-// Fonction pour mettre à jour la valeur de couleur affichée
-function updateColorValue(input, span) {
-    const hexColor = input.value.toUpperCase();
-    span.textContent = hexColor;
-
-    // Change la couleur du texte pour un meilleur contraste
-    span.style.color = getTextColor(hexColor);
-}
-
-// Écouteurs d'événements pour les changements de couleurs
-color1.addEventListener('input', () => {
-    updateColorValue(color1, dataColor1);
-});
-color2.addEventListener('input', () => {
-    updateColorValue(color2, dataColor2);
-});
-
-// Écouteur d'événement pour le changement d'orientation
-control.addEventListener('input', (e) => {
-    dataControl.textContent = e.target.value;
-});
-
-// Fonction pour générer une couleur aléatoire
-const randomColor = () => {
-    return Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+// Fonction pour réinitialiser les choix
+const resetChoix = () => {
+  box.forEach((img) => {
+    img.classList.remove("desactive");
+    img.classList.remove("active");
+  });
+  box.forEach((img) => img.addEventListener("click", jouerManche));
 };
 
-// Fonction pour appliquer des couleurs aléatoires au dégradé
-const random = () => {
-    btnAlea.addEventListener('click', () => {
-        const newColor1 = '#' + randomColor();
-        const newColor2 = '#' + randomColor();
-        const controlValue = control.value + 'deg';
+// Fonction pour faire le choix du robot
+const faireChoixYasuo = () => {
+  let nbAlea = Math.floor(Math.random() * 3);
 
-        color1.value = newColor1;
-        color2.value = newColor2;
-
-        updateColorValue(color1, dataColor1);
-        updateColorValue(color2, dataColor2);
-
-        const linear = `linear-gradient(${controlValue},${newColor1},${newColor2})`;
-
-        backgroundBody.style.background = linear;
-    });
+  switch (nbAlea) {
+    case 0:
+      return "pierre";
+    case 1:
+      return "feuille";
+    default:
+      return "ciseaux";
+  }
 };
 
-// Appel de la fonction random pour appliquer des couleurs aléatoires
-random();
+// Fonction pour déterminer le gagnant
+const quiGagne = (a, b) => {
+  if (a === b) {
+    return egalité(a, b);
+  }
+  if (a === "pierre") {
+    if (b === "feuille") {
+      return defaite(a, b);
+    }
+    if (b === "ciseaux") {
+      return victoire(a, b);
+    }
+  }
+  if (a === "feuille") {
+    if (b === "pierre") {
+      return victoire(a, b);
+    }
+    if (b === "ciseaux") {
+      return defaite(a, b);
+    }
+  }
+  if (a === "ciseaux") {
+    if (b === "pierre") {
+      return defaite(a, b);
+    }
+    if (b === "feuille") {
+      return victoire(a, b);
+    }
+  }
+};
 
-// Écouteur d'événement pour la copie du dégradé
-btnCopie.addEventListener('click', () => {  
-    navigator.clipboard.writeText(backgroundBody.style.background);
-    
-    // Affichage de la popup de confirmation
-    popUp.style.opacity = '1';
+// Fonction en cas d'égalité
+const egalité = (a, b) => {
+  resultManche.innerHTML = `
+  <p> <span>Match nul</span> pour cette manche </p>
+  `;
+  resultManche.style.color = "gray";
+  resultChoix.innerHTML = `
+    <p>Vous avez choisi <span>${a}</span> et le robot a choisi <span>${b}</span></p>
+    `;
+};
 
-    // Masquage de la popup après un délai
-    setTimeout(() => { 
-        popUp.style.opacity = '0';
-    }, 1000);
+// Fonction en cas de victoire
+const victoire = (a, b) => {
+  resultManche.innerHTML = `
+  <p>Vous avez <span>Gagné</span> cette manche </p>
+  `;
+  resultManche.style.color = "green";
+  resultChoix.innerHTML = `
+    <p>Vous avez choisi <span>${a}</span> et le robot a choisi <span>${b}</span></p>
+    `;
+  scoreJoueur.textContent++;
+};
+
+// Fonction en cas de défaite
+const defaite = (a, b) => {
+  resultManche.innerHTML = `
+  <p>Vous avez <span>Perdu</span> cette manche </p>
+  `;
+  resultManche.style.color = "red";
+  resultChoix.innerHTML = `
+    <p>Vous avez choisi <span>${a}</span> et le robot a choisi <span>${b}</span></p>
+    `;
+  scoreYasuo.textContent++;
+};
+
+
+
+// Ajout des écouteurs d'événements pour chaque choix du joueur
+box.forEach((img) => img.addEventListener("click", jouerManche));
+
+
+
+rejouer.addEventListener("click", () => {
+  // Reset des choix des joueurs
+  resetChoix();
+
+  // Reset du score
+  scoreJoueur.textContent = "0";
+  scoreYasuo.textContent = "0";
+
+  // Reset des éléments d'affichage
+  resultManche.textContent = "";
+  resultChoix.textContent = "";
+  fin.textContent = "";
+  fin.style.color = "";
+
+  // Reset de l'arbitre
+  arbitre.style.display = "none";
+
+  // Activation de l'écouteur événements pour chaque choix du joueur
+  box.forEach((img) => img.addEventListener("click", jouerManche));
 });
 
-// Fonction pour obtenir la couleur du texte en fonction de la luminosité du fond
-const getTextColor = (hexColor) => {
-    const r = parseInt(hexColor.substr(1, 2), 16);
-    const g = parseInt(hexColor.substr(3, 2), 16);
-    const b = parseInt(hexColor.substr(5, 2), 16);
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    return luminance > 0.5 ? 'black' : 'white';
-};
+

@@ -3,26 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>generateur hexa</title>
+    <title>Shi-fu-mi</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="divColor">
-            <input type="color" id="firstColor" value="#e66465" placeholder="#e66465"/>
-            <span id="firstColorValue" class="spanColor">#E66465</span>
+    <div class="main">
+        <h2>Choisis vite mais choisis bien ..</h2>
+        <div class="container">
+            <div class="box">
+                <img src="pierre.png" alt="pierre"  id="pierre" class="item">
+            </div>
+            <div class="box">
+                <img src="feuille.png" alt="feuille" id="feuille" class="item">
+            </div>
+            <div class="box">
+                <img src="ciseaux.png" alt="ciseaux" id="ciseaux" class="item">
+            </div>
         </div>
-        <div class="divColor">
-            <input type="color" id="secondColor" value="#1252BA" />
-            <span id="secondColorValue" class="spanColor">#1252BA</span>
+        <div class="choix"></div>
+        <div class="resultManche"></div>
+        <div class="score"><p>Le score est de <span id="scoreJoueur">0</span> (vous) à <span id="scoreYasuo">0</span> (le robot)</p></div>
+        <div class="arbitre">
+            <img src="arbitre.jfif" alt="arbitre" id="arbitre">
+            <caption>c'est fini !</caption>
         </div>
-        <p class="deg">Orientation : <span class="numDeg">0</span>° </p>
-        <input type="range" id="control" min="0" max="360" value="0">
-        <div class="groupeBtn">
-            <button id="copie" class="btn">Copier</button>
-            <button id="alea" class="btn">Random</button>
-        </div>  
-        <p class="popUp">Copié !</p>
+        <p class="result"></p>
     </div>
     <script src="main.js"></script>
 </body>
